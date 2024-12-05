@@ -1,6 +1,6 @@
 # ESERCIZIO 1: Esercizio di risoluzione di un merge conflict
 
-| | [<< Laboratorio 7](../README.md) | [Esercizio 1 >>](./61-git-remotes-merge-conflict/README.md) |
+| | [<< Laboratorio 7](../README.md) | [Esercizio 2 >>](../62-use-lists-and-maps/README.md) |
 
 ## FASE 1
 
@@ -62,3 +62,7 @@ si verifichi lo stato del repository con `git status`.
    ```git
    git branch --set-upstream-to=personal/master master
    ```
+
+---
+
+| | [<< Laboratorio 7](../README.md) | [Esercizio 2 >>](../62-use-lists-and-maps/README.md) |
