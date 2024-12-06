@@ -3,6 +3,7 @@ package it.unibo.exceptions;
 import it.unibo.exceptions.fakenetwork.api.NetworkComponent;
 import it.unibo.exceptions.fakenetwork.impl.ServiceBehindUnstableNetwork;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 import static it.unibo.exceptions.arithmetic.ArithmeticService.DIVIDED;
@@ -23,8 +24,9 @@ public final class UseArithmeticService {
     /**
      *
      * @param args unused
-     */
-    public static void main(final String[] args) {
+          * @throws IllegalAccessException 
+          */
+         public static void main(final String[] args) throws IllegalAccessException {
         try {
             new ServiceBehindUnstableNetwork(1);
             throw new AssertionError("Expected an IllegalArgumentException, but no Exception was thrown");
@@ -42,19 +44,28 @@ public final class UseArithmeticService {
         assertThrowsException(server, IllegalStateException.class, "1", TIMES, PLUS, "2");
     }
 
-    private static void retrySendOnNetworkError(final NetworkComponent server, final String message) {
-        /*
-         * This method should re-try to send message to the provided server, catching all IOExceptions,
+    private static void retrySendOnNetworkError(final NetworkComponent server, final String message) throws IllegalAccessException {
+        /* This method should re-try to send message to the provided server, catching all IOExceptions,
          * until it succeeds.
          */
+
+         try {
+                server.sendData(message);
+            } catch (final IOException e) {
+                LOG.println("Error sending message: " + e.getMessage());
+                retrySendOnNetworkError(server, message);
+         }
+
     }
 
     private static String retryReceiveOnNetworkError(final NetworkComponent server) {
-        /*
-         * This method should re-try to retrieve information from the provided server, catching all IOExceptions,
-         * until it succeeds.
-         */
-        return null;
+        
+        try {
+            return server.receiveResponse();
+        } catch (final IOException e) {
+            LOG.println("Error receiving message: " + e.getMessage());
+            return retryReceiveOnNetworkError(server);
+        }
     }
 
     private static void assertEqualsAsDouble(final String expected, final String actual) {
@@ -75,7 +86,7 @@ public final class UseArithmeticService {
         final NetworkComponent server,
         final String expected,
         final String... operation
-    ) {
+    ) throws IllegalAccessException {
         for (final var command: operation) {
             retrySendOnNetworkError(server, command);
         }

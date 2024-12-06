@@ -29,6 +29,11 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
         /*
          * The probability should be in [0, 1[!
          */
+
+         if (failProbability < 0 || failProbability >= 1) {
+            throw new IllegalArgumentException("The probability must be in [0, 1[");
+         }
+
         this.failProbability = failProbability;
         randomGenerator = new Random(randomSeed);
     }
@@ -50,20 +55,24 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
     @Override
     public void sendData(final String data) throws IOException {
         accessTheNetwork(data);
-        final var exceptionWhenParsedAsNumber = nullIfNumberOrException(data);
-        if (KEYWORDS.contains(data) || exceptionWhenParsedAsNumber == null) {
-            commandQueue.add(data);
-        } else {
-            final var message = data + " is not a valid keyword (allowed: " + KEYWORDS + "), nor is a number";
-            System.out.println(message);
-            commandQueue.clear();
-            /*
-             * This method, in this point, should throw an IllegalStateException.
-             * Its cause, however, is the previous NumberFormatException.
-             * Always preserve the original stacktrace!
-             *
-             * The previous exceptions must be set as the cause of the new exception
-             */
+        try {
+            final var exceptionWhenParsedAsNumber = nullIfNumberOrException(data);
+            if (KEYWORDS.contains(data) || exceptionWhenParsedAsNumber == null) {
+                commandQueue.add(data);
+            } else {
+                final var message = data + " is not a valid keyword (allowed: " + KEYWORDS + "), nor is a number";
+                commandQueue.clear();
+                throw new IllegalArgumentException(message);
+                /*
+                * This method, in this point, should throw an IllegalStateException.
+                * Its cause, however, is the previous NumberFormatException.
+                * Always preserve the original stacktrace!
+                *
+                * The previous exceptions must be set as the cause of the new exception
+                */
+            }
+        } catch (final NumberFormatException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -79,7 +88,7 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
 
     private void accessTheNetwork(final String message) throws IOException {
         if (randomGenerator.nextDouble() < failProbability) {
-            throw new IOException("Generic I/O error");
+            throw new NetworkException("Generic I/O error");
         }
     }
 

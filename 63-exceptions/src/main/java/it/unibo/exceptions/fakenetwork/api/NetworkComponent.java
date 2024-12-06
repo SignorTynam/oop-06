@@ -12,8 +12,9 @@ public interface NetworkComponent {
      *
      * @param data the data to be sent to the networked service.
      * @throws IOException if there is any (simulated) network error.
+     * @throws IllegalAccessException 
      */
-    void sendData(String data) throws IOException;
+    void sendData(String data) throws IOException, IllegalAccessException;
 
     /**
      * Tries to receive a response. May fail.

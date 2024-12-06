@@ -1,45 +1,49 @@
-# Exceptions playground
+# ESERCIZIO 3: Playground delle eccezioni
 
-### Check arguments correctness and throw RuntimeExceptions
+| [<< Esercizio 2](../62-use-lists-and-maps/README.md) | [Laboratorio 7](../README.md) | [Esercizio 4 >>](../64-design-with-maps/README.md) |
 
-Inside the constructor `ServiceBehindUnstableNetwork(double, int)`,
-add a check that the probability is within 0 (included) and 1 (excluded).
-If the check fails, it must throw an `IllegalArgumentException` with an appropriate message.
+## FASE 1
 
-### Catch existing exceptions
+### Verifica della correttezza degli argomenti e lancio di RuntimeExceptions
 
-Implement the methods `UseArithmeticService.retrySendOnNetworkError`
-and `UseArithmeticService.retryReceiveOnNetworkError`
-as described in the source code.
+All'interno del costruttore `ServiceBehindUnstableNetwork(double, int)`,
+aggiungi un controllo che la probabilità sia compresa tra 0 (incluso) e 1 (escluso).
+Se il controllo fallisce, deve lanciare un `IllegalArgumentException` con un messaggio appropriato.
 
-### Design new exceptions
+### Gestione delle eccezioni esistenti
 
-Create a `NetworkException extends IOException` with two constructors.
-The 0-ary constructor must create an Exception whose message is "Network error: no response".
-The 1-ary constructor must take a String as input, and create a message "Network error while sending message: <message>"
+Implementa i metodi `UseArithmeticService.retrySendOnNetworkError`
+e `UseArithmeticService.retryReceiveOnNetworkError`
+come descritto nel codice sorgente.
 
-Modify `ServiceBehindUnstableNetwork.accessTheNetwork()`
-in such a way that it throws the new Exception.
-Notice that the blocks that used to catch `IOException` still work.
+### Progettazione di nuove eccezioni
 
-### Check the arguments' correctness and preserve the stacktrace on rethrows
+Crea una `NetworkException extends IOException` con due costruttori.
+Il costruttore senza argomenti deve creare un'eccezione con il messaggio "Errore di rete: nessuna risposta".
+Il costruttore con un argomento deve prendere una stringa come input e creare un messaggio "Errore di rete durante l'invio del messaggio: `<messaggio>`"
 
-Modify `ServiceBehindUnstableNetwork.sendData` in such a way that,
-instead of printing, throws an IllegalArgumentException with the same message.
+Modifica `ServiceBehindUnstableNetwork.accessTheNetwork()`
+in modo che lanci la nuova eccezione.
+Nota che i blocchi che catturavano `IOException` funzionano ancora.
 
-**Note:** the newly thrown exception must *preserve* the stacktrace of the original
-`NumberFormatException` (which must be set as exception cause).
+### Verifica della correttezza degli argomenti e preservazione dello stacktrace sui rilanci
 
-### Use exceptions to mark exceptional state
+Modifica `ServiceBehindUnstableNetwork.sendData` in modo che,
+invece di stampare, lanci un `IllegalArgumentException` con lo stesso messaggio.
 
-Remove all `println`s from `ArithmeticService`: when the system enters an inconsistent state,
-an `IllegalStateException` with the same message of the print should be thrown.
-Remember to preserve the stacktrace of the cause exceptions if there is any.
+**Nota:** la nuova eccezione lanciata deve *preservare* lo stacktrace dell'eccezione originale
+`NumberFormatException` (che deve essere impostata come causa dell'eccezione).
 
-### Use `finally` to compute even after the `return`
+### Uso delle eccezioni per segnalare stati eccezionali
 
-Modify `ArithmeticService.process()`:
-no matter what, once the control flow exits the method,
-`commandQueue.clear()` must be executed.
+Rimuovi tutti i `println` da `ArithmeticService`: quando il sistema entra in uno stato incoerente,
+deve essere lanciata un'`IllegalStateException` con lo stesso messaggio della stampa.
+Ricorda di preservare lo stacktrace delle eccezioni causa, se presenti.
 
-Suggestion: use `finally` appropriately.
+### Uso di `finally` per eseguire anche dopo il `return`
+
+Modifica `ArithmeticService.process()`:
+indipendentemente da tutto, una volta che il flusso di controllo esce dal metodo,
+`commandQueue.clear()` deve essere eseguito.
+
+Suggerimento: usa `finally` in modo appropriato.
