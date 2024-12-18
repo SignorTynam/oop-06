@@ -1,6 +1,6 @@
-# Laboratorio 7: Operazioni con repository remoti
+# Laboratorio 6: Operazioni con repository remoti
 
-| [Laboratorio 7](./README.md) | [Esercizio 1 >>](./61-git-remotes-merge-conflict/README.md) |
+| [Laboratorio 6](./README.md) | [Esercizio 1 >>](./61-git-remotes-merge-conflict/README.md) |
 
 ## 7.1 Creare e Importare un Repository
 
@@ -498,4 +498,4 @@ Per una configurazione rapida con SSH:
 
 ---
 
-| [Laboratorio 7](./README.md) | [Esercizio 1 >>](./61-git-remotes-merge-conflict/README.md) |
+| [Laboratorio 6](./README.md) | [Esercizio 1 >>](./61-git-remotes-merge-conflict/README.md) |

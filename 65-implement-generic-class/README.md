@@ -1,11 +1,12 @@
-# INSTRUCTIONS
+# ESERCIZIO 5: ISTRUZIONI
 
-1. Implement interface Graph
-2. Complete the test UseGraph
-3. Run the test and understand the outcome
+1. Implementare l'interfaccia Graph
+2. Completare il test UseGraph
+3. Eseguire il test e comprendere il risultato
 
-**Bonus**: implement a Graph where the exploration strategy can be selected arbitrarily.
-Implement both a depth-first strategy and a breadth-first strategy.
-Helpful readings:
+**Bonus**: implementare un Graph dove la strategia di esplorazione può essere selezionata arbitrariamente.
+Implementare sia una strategia depth-first che una strategia breadth-first.
+Letture utili:
 * http://artint.info/html/ArtInt_51.html
-* https://en.wikipedia.org/wiki/Strategy_pattern
+* https://it.wikipedia.org/wiki/Strategy_pattern
+
